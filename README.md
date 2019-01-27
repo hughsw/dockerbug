@@ -11,7 +11,7 @@ You will have to restart the Docker engine in order to be able to connect to run
 
 ## Prerequisites
 
-You will need the following installed on you Mac:
+You will need the following installed on your Mac:
 * NodeJS version 8.12 or higher
 * `npm` version 6.4.1 or higher
 * `bash` version 3.2.57 or higher
@@ -77,6 +77,6 @@ You can kill it with `./stop.sh`
 
 * `stop.sh` -- stops the MariaDB container, if any
 * `go.sh [fileName]` -- starts the MariaDB container, runs `npm install`, runs `go.js fileName`
-* `go.js` -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB
+* `go.js` -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB, boom!
 
 Read the code.
