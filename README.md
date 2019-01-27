@@ -73,6 +73,8 @@ a8893615e84d        mariadb:10.3        "docker-entrypoint.s…"   13 minutes ag
 You can kill it with `./stop.sh`
 
 
+You can restart the Docker engine via the Restart menu item under the Docker icon.
+
 ## Details
 
 * `stop.sh` -- stops the MariaDB container, if any
