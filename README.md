@@ -6,8 +6,9 @@ See https://github.com/docker/for-mac/issues/3487 for background and discussion.
 
 ### Note:
 > This code is intended to break the Docker engine on Docker for Mac that the local `docker` command talks to.
-If the code succeeds, the symptom will be that no network connections can be made from the host to running containers.
-You will have to restart the Docker engine in order to be able to connect to running containers.
+It will kill all running containers, and then start a MariaDB container which it uses to break the Docker engine network.
+If the code succeeds, the symptom will be that no network connections can be made from the host to any running container.
+You will have to restart the Docker engine and the containers in order to be able to connect to the containers.
 
 ## Prerequisites
 
@@ -16,6 +17,9 @@ You will need the following installed on your Mac:
 * `npm` version 6.4.1 or higher
 * `bash` version 3.2.57 or higher
 * Docker for Mac 2.0.0.2 (Docker engine 18.09.1)
+* or
+* Docker for Mac 2.0.0.3 (Docker engine 18.09.2)
+
 
 ```bash
 bash-3.2$ node --version
@@ -26,7 +30,7 @@ bash-3.2$ bash --version
 GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin17)
 Copyright (C) 2007 Free Software Foundation, Inc.
 ```
-![Docker for Mac version info](./DockerForMac-version.png)
+![Docker for Mac 2.0.0.2](./DockerForMac-version.png)  ![Docker for Mac 2.0.0.3](./DockerForMac-version2.png)
 
 ## How to use
 
@@ -37,7 +41,11 @@ To break the Docker engine, run the shell script `./go.sh` in a terminal.
 It will need you to confirm that you want to try to break the Docker engine.
 If so, hit Return and wait patiently for up to 60 seconds.
 
-Log messages from both a MariaDB container and various shell and NodeJs processes will be interleaved.
+It will first kill any running containers.
+Then it starts a MariaDB container.
+Log messages from both a MariaDB container and various shell and NodeJs processes will be interleaved, including failed connection messages.
+
+Be patient.
 
 A successful breakage of the Docker engine will be indicated by logging messages in the terminal that end with something like this:
 ```
@@ -60,9 +68,17 @@ The smoking-gun part is this:
 Got a packet bigger than 'max_allowed_packet' bytes
 ```
 
-If you run `go.sh` again, it will eventually fail with a connection timeout.  This is the symptom that the Docker engine is broken.  (If you get a connection refusal, that suggests the Docker engine isn't even running.)
+If you run `go.sh` again, it will eventually fail with a connection timeout.
+This is the symptom that the Docker engine is broken.
+If you get a connection refusal, that suggests the Docker engine isn't even running.
 You can also run any other image/container and you should get a timeout error when trying to connect to an exposed port from the host.
 
+
+`go.sh` will create a couple of Git Untracked directories:
+```
+  mysql/
+  node_modules/
+```
 
 `go.sh` will leave a Docker container running MariaDB.
 ```bash
@@ -73,12 +89,12 @@ a8893615e84d        mariadb:10.3        "docker-entrypoint.s…"   13 minutes ag
 You can kill it with `./stop.sh`
 
 
-You can restart the Docker engine via the Restart menu item under the Docker icon.
+You will have to restart the Docker engine via the Restart menu item under the Docker icon.
 
 ## Details
 
-* `stop.sh` -- stops the MariaDB container, if any
-* `go.sh [fileName]` -- starts the MariaDB container, runs `npm install`, runs `go.js fileName`
-* `go.js` -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB, boom!
+* [`go.sh [fileName]`](file:./go.sh) -- kills running containers, starts the MariaDB container, runs `npm install`, runs `go.js fileName`
+* [`go.js`](file:./go.js) -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB, boom!
+* [`stop.sh`](file:./stop.sh) -- stops the running MariaDB container, if any
 
 Read the code.

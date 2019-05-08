@@ -13,7 +13,8 @@ fileName="${1:-BigBlob.data}"
 
 cat <<EOF
 
-WARNING: This script attempts to break the Docker engine daemon.  See: https://github.com/docker/for-mac/issues/3487
+WARNING: This script attempts to break the Docker engine daemon of Docker for Mac.  See: https://github.com/docker/for-mac/issues/3487
+It will kill all running containers, start a MariaDB container, and use the DB to (attempt to) break the Docker engine's networking.
 
 Hit Ctrl-C now to stop this script and thus prevent the attempt to break the Docker engine.
 Hit Return to have the script proceed and attempt to break the Docker engine.
@@ -23,6 +24,9 @@ read nonce
 
 # work locally
 cd $DIR
+
+# kill running Docker containers
+docker ps | awk '{print $1}' | xargs docker kill || true
 
 # stop the running container, if any
 ./stop.sh
@@ -52,6 +56,10 @@ docker run \
 
 # meanwhile, build libraries
 npm install
+
+echo
+echo 'Connecting to DB.  This may take a while, with several "sequelize: failed connect attempt:" messages'
+echo
 
 # run sequelize and break the Docker engine
 node go.js $fileName
