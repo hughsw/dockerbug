@@ -93,8 +93,8 @@ You will have to restart the Docker engine via the Restart menu item under the D
 
 ## Details
 
-* [`go.sh [fileName]`](file:./go.sh) -- kills running containers, starts the MariaDB container, runs `npm install`, runs `go.js fileName`
-* [`go.js`](file:./go.js) -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB, boom!
-* [`stop.sh`](file:./stop.sh) -- stops the running MariaDB container, if any
+* [`go.sh [fileName]`](./go.sh) -- kills running containers, starts the MariaDB container, runs `npm install`, runs `go.js fileName`
+* [`go.js`](./go.js) -- loads a blob from a file, connects to the DB with Sequelize, creates a table for blobs, sends the blob to the DB, boom!
+* [`stop.sh`](./stop.sh) -- stops the running MariaDB container, if any
 
 Read the code.
