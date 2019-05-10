@@ -11,7 +11,10 @@ const connect = async () => {
     process.env.MYSQL_DATABASE,
     process.env.MYSQL_USER,
     process.env.MYSQL_PASSWORD,
-    { dialect: 'mysql' },
+    {
+      port: process.env.MYSQL_PORT,
+      dialect: 'mysql'
+    },
   );
   // authenticate() will throw "SequelizeConnectionError: connect ETIMEDOUT" if DB is not reachable
   await sequelize.authenticate();
