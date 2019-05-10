@@ -34,8 +34,8 @@ bash-3.2$ bash --version
 GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin17)
 Copyright (C) 2007 Free Software Foundation, Inc.
 ```
-![Docker for Mac 2.0.0.3](./DockerForMac-version2.png =350x)
-![Docker for Mac 2.0.0.2](./DockerForMac-version.png =350x)
+![Docker for Mac 2.0.0.3](./DockerForMac-version2.png | width=250)
+![Docker for Mac 2.0.0.2](./DockerForMac-version.png | width=250)
 
 ## How to use
 
